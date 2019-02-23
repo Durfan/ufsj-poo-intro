@@ -1,1 +1,0 @@
-/usr/bin/cc -g   CMakeFiles/ufsj_poo_ti.dir/src/main.c.o CMakeFiles/ufsj_poo_ti.dir/src/agenda.c.o CMakeFiles/ufsj_poo_ti.dir/src/menus.c.o CMakeFiles/ufsj_poo_ti.dir/src/tools.c.o  -o ufsj_poo_ti 
