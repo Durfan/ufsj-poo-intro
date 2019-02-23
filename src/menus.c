@@ -7,6 +7,7 @@
 user_t *menuLogin (users_t *list, user_t *agenda) {
     userdata_t userdata;
     bool selected = false;
+    int IDuser;
     char choice;
 
     while (!selected) {
@@ -14,7 +15,7 @@ user_t *menuLogin (users_t *list, user_t *agenda) {
         printf(cYELL" POO Trabalho Inicial\n\n"cRSET);
         printf(cBLUE" \u250C\u2500 Agendas \u2500 %d\n"cRSET, list->size);
 
-        if (isEmpty(list)) {
+        if (list->head == NULL) {
             printf(cBLUE" \u2502\n"cRSET);
             printf(cBLUE" \u2502"cRSET" (empty)\n");
             printf(cBLUE" \u2502\n"cRSET);
@@ -43,8 +44,9 @@ user_t *menuLogin (users_t *list, user_t *agenda) {
                 exit(0);
 
             default:
-                if (isdigit(choice)) {
-                    agenda = UatPos(list,(choice-1) - '0');
+                IDuser = (choice) - '0';
+                if (isdigit(choice) && IDuser > 0 && IDuser <= list->size) {
+                    agenda = UatPos(list,IDuser-1);
                     selected = true;
                 }
                 break;  
@@ -80,9 +82,9 @@ event_t menuADDevent(user_t *agenda, event_t data) {
     printf(" \u2502 [1] Tarefa\n");
     printf(" \u2502 [2] Reunião\n");
     printf(" \u2502 [3] Aniversário\n");
-    printf(" \u2502 [ ] Tipo de Evento: ");
 
-    scanf (" %u", &evenType_t);
+    msg = " \u2502 [ ] Tipo de Evento: ";
+    evenType_t = CHKinput(msg,1,3);
     switch (evenType_t) {
         case todo:
             data.event = todo;
@@ -120,8 +122,18 @@ event_t menuADDevent(user_t *agenda, event_t data) {
 
     msg = " \u2502 Horario de Inicio (1-24): ";
     data.start = CHKinput(msg,1,24);
+    // if (agenda->avaliable[data.start])
     msg = " \u2514 Horario de Termino (1-24): ";
     data.end = CHKinput(msg,1,24);
+
+    bool validatermino = data.end < data.start;
+    while (validatermino) {
+        clearInputBuffer();
+        printf(cBLUE" \u2502");
+        printf(cRED" Horario de Termino Invalido.\n"cRSET);
+        data.end = CHKinput(msg,1,24);
+        validatermino = data.end < data.start;
+    }
 
     return data;
 }
@@ -199,7 +211,7 @@ void menuEvent(users_t *list, user_t *agenda) {
                 event = menuADDevent(agenda,event);
                 ADDevent(agenda,event);
                 LLinc(agenda);
-                agenda->avaliable = CHKtime(agenda);
+                CHKtime(agenda);
                 break;
 
             case 'L': case 'l':

@@ -7,7 +7,7 @@
 
 users_t *create() {
     users_t *list = (users_t*) malloc(sizeof(users_t));
-    if (!list) return NULL;
+    assert(list);
     list->size = 0;
     list->head = NULL;
     return list;
@@ -46,7 +46,7 @@ int IDuser(users_t *list, user_t *user) {
     return -1;
 }
 
-int IDevent(user_t *agenda, events_t *event) {
+int IDtask(user_t *agenda, events_t *event) {
     if (event != NULL) {
         events_t *ptr = agenda->head;
         int index = 0;
@@ -61,12 +61,10 @@ int IDevent(user_t *agenda, events_t *event) {
 
 void ADDuser(users_t *list, userdata_t data) {
     user_t *user = (user_t*) malloc(sizeof(user_t));
-    if (!user) {
-        printf(cRED"ERROR: Out of memory! Exiting.\n"cRSET);
-        exit(1);
-    }
+    assert(user);
+    user->avaliable = calloc(24,sizeof(int));
+    assert(user->avaliable);
     user->head = NULL;
-    user->avaliable = NULL;
     user->data = data;
     user->next = list->head;
     list->head = user;
@@ -75,10 +73,7 @@ void ADDuser(users_t *list, userdata_t data) {
 
 void ADDevent(user_t *user, event_t data) {
     events_t *event = (events_t*) malloc(sizeof(events_t));
-    if (!user) {
-        printf(cRED"ERROR: Out of memory! Exiting.\n"cRSET);
-        exit(1);
-    }
+    assert(event);
     event->data = data;
     event->next = user->head;
     user->head = event;
@@ -86,7 +81,7 @@ void ADDevent(user_t *user, event_t data) {
 }
 
 void PRTusers(users_t *list) {
-    if (isEmpty(list)) return;
+    if (list->head == NULL) return;
     user_t *ptr = list->head;
 
     while (ptr != NULL) {
@@ -103,7 +98,7 @@ void PRTevents(user_t *agenda) {
 
     while (ptr != NULL) {
         printf(cBLUE" \u2502\n \u251C");
-        // printf(" [%d]", IDevent(agenda,ptr));
+        // printf(" [%d]", IDtask(agenda,ptr));
         printf(" De %02d as %02d", ptr->data.start, ptr->data.end);
         switch (ptr->data.event) {
             case 1:
@@ -139,8 +134,8 @@ void PRTevents(user_t *agenda) {
 
 void LLchg(user_t *agenda, events_t *nodeA, events_t *nodeB) {
     if (nodeA == nodeB) return;
-    int indexA = IDevent(agenda,nodeA);
-    int indexB = IDevent(agenda,nodeB);
+    int indexA = IDtask(agenda,nodeA);
+    int indexB = IDtask(agenda,nodeB);
 
     if (indexA == -1 || indexB == -1) return;
 
@@ -148,7 +143,7 @@ void LLchg(user_t *agenda, events_t *nodeA, events_t *nodeB) {
         nodeA = nodeB;
         nodeB = EatPos(agenda,indexA);
         indexA = indexB;
-        indexB = IDevent(agenda,nodeB);
+        indexB = IDtask(agenda,nodeB);
     }
 
     events_t *pb = EatPos(agenda,indexB-1);
@@ -180,13 +175,8 @@ events_t *LLmin(user_t *agenda, int index) {
 }
 
 void LLinc(user_t *agenda) {
-    for (int i = 0; i < agenda->size-1; i++) {
+    for (int i = 0; i < agenda->size-1; i++)
         LLchg(agenda,EatPos(agenda,i),LLmin(agenda,i));
-    }
-}
-
-bool isEmpty(users_t *list) {
-    return (list->head == NULL);
 }
 
 void freeMEM(users_t *list) {
@@ -194,22 +184,21 @@ void freeMEM(users_t *list) {
         free(list);
         return;
     }
-
     user_t *delUser;
     events_t *delEvent;
-    if (list->head->avaliable != NULL)
-        free(list->head->avaliable);
+
+    while (list->head->head != NULL) {
+        delEvent = list->head->head;
+        list->head->head = list->head->head->next;
+        free(delEvent);
+    }
+
     while (list->head != NULL) {
-        if (list->head->head != NULL) {
-            while (list->head->head != NULL) {
-                delEvent = list->head->head;
-                list->head->head = list->head->head->next;
-                free(delEvent);
-            }
-        }
         delUser = list->head;
+        free(delUser->avaliable);
         list->head = list->head->next;
         free(delUser);
     }
+
     free(list);
 }

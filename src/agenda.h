@@ -6,17 +6,18 @@
 #define UFSJ_POO_TI_AGENDA_H
 
 enum evenType {todo = 1, meeting, birthday} evenType_t;
+typedef unsigned short tinyN_t;
 
 typedef struct event {
-    unsigned short event;
+    tinyN_t event;
     char about[80];
     char place[80];
     char birtPerson[50];
     bool required;
-    unsigned short start;
-    unsigned short end;
-    unsigned short effort;
-    unsigned short priority;
+    tinyN_t start;
+    tinyN_t end;
+    tinyN_t effort;
+    tinyN_t priority;
 } event_t;
 
 typedef struct events {
@@ -33,12 +34,12 @@ typedef struct user {
     userdata_t data;
     events_t *head;
     int *avaliable;
-    unsigned short size;
+    tinyN_t size;
     struct user *next;
 } user_t;
 
 typedef struct users {
-    unsigned short size;
+    tinyN_t size;
     user_t *head;
 } users_t;
 
@@ -48,7 +49,7 @@ events_t *EatPos(user_t *agenda, int index);
 events_t *LLmin(user_t *agenda, int index);
 
 int IDuser(users_t *list, user_t *user);
-int IDevent(user_t *agenda, events_t *event);
+int IDtask(user_t *agenda, events_t *event);
 
 void ADDuser(users_t *list, userdata_t data);
 void ADDevent(user_t *user, event_t data);
@@ -58,7 +59,6 @@ void PRTevents(user_t *events);
 void LLinc(user_t *agenda);
 void LLchg(user_t *agenda, events_t *nodeA, events_t *nodeB);
 
-bool isEmpty(users_t *list);
 void freeMEM(users_t *list);
 
 #endif //UFSJ_POO_TI_AGENDA_H

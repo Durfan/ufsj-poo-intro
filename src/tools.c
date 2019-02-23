@@ -27,30 +27,27 @@ int CHKinput(char *msg, int min, int max) {
 	}
 }
 
-int *CHKtime(user_t *agenda) {
-    if (agenda->head == NULL) return NULL;
-    int *freetime = calloc(24,sizeof(int));
+void CHKtime(user_t *agenda) {
+    if (agenda->head == NULL) return;
     events_t *ptr = agenda->head;
 
     while (ptr != NULL) {
         for (int i = ptr->data.start-1; i <= ptr->data.end-1; i++)
             switch (ptr->data.event) {
                 case todo:
-                    freetime[i] = todo;
+                    agenda->avaliable[i] = todo;
                     break;
                 case meeting:
-                    freetime[i] = meeting;
+                    agenda->avaliable[i] = meeting;
                     break;
                 case birthday:
-                    freetime[i] = birthday;
+                    agenda->avaliable[i] = birthday;
                     break;
             
                 default:
-                    freetime[i] = -1;
+                    agenda->avaliable[i] = -1;
                     break;
             }
         ptr = ptr->next;
     }
-
-    return freetime;
 }
