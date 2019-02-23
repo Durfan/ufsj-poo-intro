@@ -1,2 +1,2 @@
-# ufsj-poo-TIv2
-POO - Trabalho Inicial (Versão 2)
+# Programação Orientada a Objetos
+## Trabalho Inicial (Versão 2)
