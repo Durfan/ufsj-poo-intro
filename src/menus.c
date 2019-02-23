@@ -56,9 +56,9 @@ user_t *menuLogin (users_t *list, user_t *agenda) {
 
 userdata_t menuADDuser(userdata_t data) {
     printf(cBLUE"\n \u250C\u2500 Adicionar usuario:\n"cRSET);
-    printf(" \u2502 Nome: ");
+    printf(cBLUE" \u2502"cRSET" Nome: ");
     scanf (" %[^\n]%*c", data.name);
-    printf(" \u2514 Email: ");
+    printf(cBLUE" \u2514"cRSET" Email: ");
     scanf (" %[^\n]%*c", data.email);
 
     return data;
