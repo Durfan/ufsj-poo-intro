@@ -7,4 +7,4 @@
 
 ### Uso
 
-`$ ./agenda
+`$ ./agenda`
