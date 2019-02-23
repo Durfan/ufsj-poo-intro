@@ -1,0 +1,3 @@
+/home/cecilio/CLionProjects/ufsj-poo-ti/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/cecilio/CLionProjects/ufsj-poo-ti/cmake-build-debug/CMakeFiles/ufsj_poo_ti.dir
+/home/cecilio/CLionProjects/ufsj-poo-ti/cmake-build-debug/CMakeFiles/edit_cache.dir
