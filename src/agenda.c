@@ -85,7 +85,7 @@ void PRTusers(users_t *list) {
     user_t *ptr = list->head;
 
     while (ptr != NULL) {
-        printf(cBLUE" \u251C"cRSET" [%d]", IDuser(list,ptr)+1);
+        printf(DECO03"[%d]", IDuser(list,ptr)+1);
         printf(" %s", ptr->data.name);
         printf(" (%s)\n", ptr->data.email);
         ptr = ptr->next;
@@ -98,35 +98,35 @@ void PRTevents(user_t *agenda) {
 
     while (ptr != NULL) {
         printf(cBLUE" \u2502\n \u251C");
-        // printf(" [%d]", IDtask(agenda,ptr));
+        printf(" [%d]", IDtask(agenda,ptr));
         printf(" De %02d as %02d", ptr->data.start, ptr->data.end);
         switch (ptr->data.event) {
             case 1:
                 printf(" [Tarefa]\n"cRSET);
-                printf(cBLUE" \u2502"cRSET" Esforco: %d\n", ptr->data.effort);
-                printf(cBLUE" \u2502"cRSET" Prioridade: %d\n", ptr->data.priority);
+                printf(DECO01"Esforco: %d\n", ptr->data.effort);
+                printf(DECO01"Prioridade: %d\n", ptr->data.priority);
                 break;
 
             case 2:
                 printf (" [Reuniao]\n"cRSET);
-                printf(cBLUE" \u2502"cRSET" Presença Obrigatoria?");
+                printf(DECO01"Presença Obrigatoria?");
                 if (ptr->data.required) printf(cRED" Sim\n"cRSET);
                 else printf(" Nao\n");
                 break;
 
             case 3:
                 printf (" [Aniversario]\n"cRSET);
-                printf(cBLUE" \u2502"cRSET" Aniversariante: %s\n", ptr->data.birtPerson);
+                printf(DECO01"Aniversariante: %s\n", ptr->data.birtPerson);
                 break;
         
             default:
                 break;
         }
             
-        printf(cBLUE" \u2502"cRSET" Assunto: %s\n", ptr->data.about);
+        printf(DECO01"Assunto: %s\n", ptr->data.about);
 
         if (ptr->data.event == meeting || ptr->data.event == birthday)
-            printf(cBLUE" \u2502"cRSET" Local: %s\n", ptr->data.place);
+            printf(DECO01"Local: %s\n", ptr->data.place);
 
         ptr = ptr->next;
     }

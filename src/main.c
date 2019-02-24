@@ -4,6 +4,7 @@
 
 #include "main.h"
 
+
 int main(void) {
     users_t *list = create();
     user_t *agenda;
