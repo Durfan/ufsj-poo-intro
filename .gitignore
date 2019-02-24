@@ -1,6 +1,7 @@
 agenda
 bin/*
 build/*
+CMakeLists.txt
 
 .vscode/*
 .vscode/settings.json
