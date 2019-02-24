@@ -2,7 +2,7 @@
 // Created by cecilio on 22/02/19.
 //
 
-#include "main.h"
+#include "../include/main.h"
 
 
 int main(void) {
