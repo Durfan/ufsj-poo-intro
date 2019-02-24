@@ -2,8 +2,8 @@
 // Created by cecilio on 21/02/19.
 //
 
-#ifndef UFSJ_POO_TI_AGENDA_H
-#define UFSJ_POO_TI_AGENDA_H
+#ifndef POOTIV2_AGENDA_H
+#define POOTIV2_AGENDA_H
 
 enum evenType {todo = 1, meeting, birthday} evenType_t;
 typedef unsigned short tinyN_t;
@@ -61,4 +61,4 @@ void LLchg(user_t *agenda, events_t *nodeA, events_t *nodeB);
 
 void freeMEM(users_t *list);
 
-#endif //UFSJ_POO_TI_AGENDA_H
+#endif //POOTIV2_AGENDA_H
