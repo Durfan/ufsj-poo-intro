@@ -12,6 +12,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 
+#include "datastruct.h"
 #include "deco.h"
 #include "agenda.h"
 #include "menus.h"
