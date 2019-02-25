@@ -17,5 +17,7 @@
 #define DECO03 cBLUE" \u251C "cRSET
 #define DECO04 cBLUE"\n \u2502\n"cRSET
 #define DECO05 cBLUE"\n \u2502 "cRSET
+#define BLOCK0 "\u2588\u2588"
+#define BLOCK1 "\u2591\u2591"
 
 #endif //POOTIV2_TCOLORS_H

@@ -14,7 +14,7 @@ users_t *create() {
 }
 
 user_t *UatPos(users_t *list, int index) {
-    if (index >= 0 && index < list->size) {
+    if (range(index,0,list->size-1)) {
         user_t *user = list->head;
         for (int i = 0; i < index; i++)
             user = user->next;
@@ -24,7 +24,7 @@ user_t *UatPos(users_t *list, int index) {
 }
 
 events_t *EatPos(user_t *agenda, int index) {
-    if (index >= 0 && index < agenda->size) {
+    if (range(index,0,agenda->size-1)) {
         events_t *event = agenda->head;
         for (int i = 0; i < index; i++)
             event = event->next;
@@ -34,10 +34,10 @@ events_t *EatPos(user_t *agenda, int index) {
 }
 
 int IDuser(users_t *list, user_t *user) {
-    if (user != NULL) {
+    if (!isNULL(user)) {
         user_t *ptr = list->head;
         int index = 0;
-        while (ptr != user && ptr != NULL) {
+        while (ptr != user && !isNULL(ptr)) {
             ptr = ptr->next;
             index++;
         }
@@ -47,10 +47,10 @@ int IDuser(users_t *list, user_t *user) {
 }
 
 int IDtask(user_t *agenda, events_t *event) {
-    if (event != NULL) {
+    if (!isNULL(event)) {
         events_t *ptr = agenda->head;
         int index = 0;
-        while (ptr != event && ptr != NULL) {
+        while (ptr != event && !isNULL(ptr)) {
             ptr = ptr->next;
             index++;
         }
@@ -81,10 +81,11 @@ void ADDevent(user_t *user, event_t data) {
 }
 
 void PRTusers(users_t *list) {
-    if (list->head == NULL) return;
-    user_t *ptr = list->head;
 
-    while (ptr != NULL) {
+    if (isNULL(list->head)) return;
+
+    user_t *ptr = list->head;
+    while (!isNULL(ptr)) {
         printf(DECO03"[%d]", IDuser(list,ptr)+1);
         printf(" %s", ptr->data.name);
         printf(" (%s)\n", ptr->data.email);
@@ -93,29 +94,32 @@ void PRTusers(users_t *list) {
 }
 
 void PRTevents(user_t *agenda) {
-    if (agenda->head == NULL) return;
-    events_t *ptr = agenda->head;
 
-    while (ptr != NULL) {
+    if (isNULL(agenda->head)) return;
+
+    events_t *ptr = agenda->head;
+    while (!isNULL(ptr)) {
         printf(cBLUE" \u2502\n \u251C");
         printf(" [%d]", IDtask(agenda,ptr));
         printf(" De %02d as %02d", ptr->data.start, ptr->data.end);
+
         switch (ptr->data.event) {
+
             case 1:
-                printf(" [Tarefa]\n"cRSET);
+                printf(" (Tarefa)\n"cRSET);
                 printf(DECO01"Esforco: %d\n", ptr->data.effort);
                 printf(DECO01"Prioridade: %d\n", ptr->data.priority);
                 break;
 
             case 2:
-                printf (" [Reuniao]\n"cRSET);
+                printf (" (Reuniao)\n"cRSET);
                 printf(DECO01"Presença Obrigatoria?");
                 if (ptr->data.required) printf(cRED" Sim\n"cRSET);
                 else printf(" Nao\n");
                 break;
 
             case 3:
-                printf (" [Aniversario]\n"cRSET);
+                printf (" (Aniversario)\n"cRSET);
                 printf(DECO01"Aniversariante: %s\n", ptr->data.birtPerson);
                 break;
         
@@ -146,15 +150,15 @@ void LLchg(user_t *agenda, events_t *nodeA, events_t *nodeB) {
         indexB = IDtask(agenda,nodeB);
     }
 
-    events_t *pb = EatPos(agenda,indexB-1);
+    events_t *ptrB = EatPos(agenda,indexB-1);
 
     if (nodeA == agenda->head) agenda->head = nodeB;
     else {
-        events_t *pa = EatPos(agenda,indexA-1);
-        pa->next = nodeB;
+        events_t *ptrA = EatPos(agenda,indexA-1);
+        ptrA->next = nodeB;
     }
 
-    pb->next = nodeA;
+    ptrB->next = nodeA;
     events_t *ptr = nodeA->next;
     nodeA->next = nodeB->next;
     nodeB->next = ptr;
@@ -162,7 +166,7 @@ void LLchg(user_t *agenda, events_t *nodeA, events_t *nodeB) {
 
 events_t *LLmin(user_t *agenda, int index) {
     events_t *ptr = EatPos(agenda,index);
-    if (ptr != NULL) {
+    if (!isNULL(ptr)) {
         events_t *minNode = ptr;
         while (ptr != NULL) {
             if (ptr->data.start < minNode->data.start)
@@ -180,20 +184,20 @@ void LLinc(user_t *agenda) {
 }
 
 void freeMEM(users_t *list) {
-    if (list->head == NULL) {
+    if (isNULL(list->head)) {
         free(list);
         return;
     }
     user_t *delUser;
     events_t *delEvent;
 
-    while (list->head->head != NULL) {
+    while (!isNULL(list->head->head)) {
         delEvent = list->head->head;
         list->head->head = list->head->head->next;
         free(delEvent);
     }
 
-    while (list->head != NULL) {
+    while (!isNULL(list->head)) {
         delUser = list->head;
         free(delUser->avaliable);
         list->head = list->head->next;

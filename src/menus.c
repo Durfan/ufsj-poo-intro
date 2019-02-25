@@ -18,7 +18,7 @@ user_t *menuLogin(users_t *list, user_t *agenda) {
         menuTitle(list,agenda,0);
 
         printf(DECO00);
-        if (list->head == NULL)
+        if (isNULL(list->head))
             printf(DECO01" (empty)\n");
         else PRTusers(list);
 
@@ -42,10 +42,8 @@ user_t *menuLogin(users_t *list, user_t *agenda) {
 
             default:
                 IDuser = (choice) - '0';
-                if (isdigit(choice) && IDuser > 0 && IDuser <= list->size) {
-                    agenda = UatPos(list,IDuser-1);
-                    selected = true;
-                }
+                selected = isdigit(choice) && range(IDuser,1,list->size);
+                if (selected) agenda = UatPos(list,IDuser-1);
                 break;
         }
     }
@@ -91,7 +89,7 @@ event_t menuADDevent(user_t *agenda, event_t data) {
 
         case meeting:
             data.event = meeting;
-            printf(DECO01"Presença Obrigatoria (s/n): ");
+            printf(DECO01"Presença Obrigatoria (S/n): ");
             scanf (" %c", &c);
             if (c == 's' || c == 'S') data.required = true;
             else data.required = false;
@@ -123,37 +121,37 @@ event_t menuADDevent(user_t *agenda, event_t data) {
 
 void eventBAR(user_t *agenda) {
 
-    printf(DECO00);
-    printf(DECO01);
+    printf(DECO00 DECO01);
 
-    for (int i = 0; i < 24; i++)
-        printf(i%2!=0?"%02d":"  ", i);
+    for (int i = 0; i < 24; i++) {
+        if (i < 10) printf(!divOne(i)?"%d ":"  ", i);
+        else printf(!divOne(i)?"%d":"  ", i);
+    }
 
     printf(DECO05);
+
     for (int i = 0; i < 24; i++) {
-        if (agenda->avaliable != NULL && agenda->avaliable[i]) {
+
+        if (!isNULL(agenda->avaliable) && agenda->avaliable[i]) {
+
             switch (agenda->avaliable[i]) {
-                case todo:
-                    printf(cGREN"\u2588\u2588"cRSET);
-                    break;
-                case meeting:
-                    printf(cYELL"\u2588\u2588"cRSET);
-                    break;
-                case birthday:
-                    printf(cBLUE"\u2588\u2588"cRSET);
-                    break;
+
+                case     todo: printf(cGREN BLOCK0 cRSET); break;
+                case  meeting: printf(cYELL BLOCK0 cRSET); break;
+                case birthday: printf(cBLUE BLOCK0 cRSET); break;
             
-                default:
-                    printf("??");
-                    break;
+                default: printf("??"); break;
             }
         }
-        else printf("\u2591\u2591");
+        else printf(BLOCK1);
     }
+
     printf(DECO05);
 
-    for (int i = 0; i < 24; i++)
-        printf(i%2==0?"%02d":"  ", i);
+    for (int i = 0; i < 24; i++) {
+        if (i < 10) printf(divOne(i)?"%d ":"  ", i);
+        else printf(divOne(i)?"%d":"  ", i);
+    }
 
     printf(DECO04);
 }
@@ -245,7 +243,7 @@ void menuTitle(users_t *list, user_t *agenda, tinyN_t title) {
 }
 
 void voltar() {
-    printf(cBLUE" \u2502\n \u2514"cRSET);
-    printf(" ENTER para voltar...");
+    printf(DECO00 DECO02);
+    printf("ENTER para voltar...");
     getchar();
 }
