@@ -52,7 +52,8 @@ user_t *menuLogin(users_t *list, user_t *agenda) {
 } 
 
 userdata_t menuADDuser(userdata_t data) {
-    printf(cBLUE"\n \u250C\u2500 Adicionar usuario:\n"cRSET);
+    printf("\n");
+    printf(DECO06"Adicionar usuario:\n");
     printf(DECO01"Nome: ");
     scanf (" %[^\n]%*c", data.name);
     printf(DECO02"Email: ");
@@ -217,24 +218,21 @@ void menuTitle(users_t *list, user_t *agenda, tinyN_t title) {
     switch (title) {
 
         case 0:
-            printf(cYELL" POO Trabalho Inicial\n\n");
-            printf(cBLUE" \u250C\u2500 Agendas \u2500 %d\n", list->size);
-            printf(cRSET);
+            printf(PTITLE);
+            printf(DECO06"Agendas \u2500 %d\n", list->size);
             break;
 
         case 1:
-            printf(cYELL" POO Trabalho Inicial\n\n");
-            printf(cBLUE" \u250C\u2500 %s", agenda->data.name);
+            printf(PTITLE);
+            printf(DECO06"%s", agenda->data.name);
             printf(" (%s)\n", agenda->data.email);
-            printf(cRSET);
             break;
 
         case 2:
-            printf(cYELL" POO Trabalho Inicial\n\n");
-            printf(cBLUE" \u250C\u2500 %s", agenda->data.name);
+            printf(PTITLE);
+            printf(DECO06"%s", agenda->data.name);
             printf(" (%s)", agenda->data.email);
             printf(" \u2500 %d eventos\n", agenda->size);
-            printf(cRSET);
             break;
     
         default:

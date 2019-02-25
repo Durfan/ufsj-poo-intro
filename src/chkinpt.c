@@ -10,6 +10,10 @@ void BufferClear() {
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+void PRTerror(int code, char *msg) {
+    printf(ALERT1"ERR%02d: %s\n"cRSET, code, msg);
+}
+
 int CHKinput(char *msg, int min, int max) {
 
     char *ptr, str[100];
@@ -22,7 +26,8 @@ int CHKinput(char *msg, int min, int max) {
         while (fgets(str,sizeof(str),stdin)) {
             n = strtol(str, &ptr, 10);
             if (ptr == str || *ptr != '\n') {
-                printf(DECO01 cRED"Escolha um numero entre %d e %d.\n"cRSET, min, max);
+                //PRTerror(1,"CHAR INPUT");
+                printf(ALERT1"Escolha um numero entre %d e %d.\n"cRSET, min, max);
                 printf(DECO01"%s", msg);
             } else break;
         }
@@ -30,8 +35,10 @@ int CHKinput(char *msg, int min, int max) {
 
         pass = range(n,min,max);
         
-        if (!pass)
-            printf(DECO01 cRED"Escolha um valor entre %d e %d.\n"cRSET, min, max);
+        if (!pass) {
+            //PRTerror(2,"INPUT VALUE");
+            printf(ALERT1"Escolha um valor entre %d e %d.\n"cRSET, min, max);
+        }
 
 	} while (!pass);
 
@@ -48,8 +55,10 @@ int CHKstart(user_t *agenda) {
         msg = "Horario de Inicio (0-23): ";
         start = CHKinput(msg,0,23);
         validTime = agenda->avaliable[start];
-        if (validTime)
+        if (validTime) {
+            //PRTerror(2,"INPUT VALUE");
             printf(DECO01 cRED"Horario de Inicio Invalido.\n"cRSET);
+        }
         else validTime = false;
     }
 
@@ -66,8 +75,10 @@ int CHKend(user_t *agenda, tinyN_t start) {
         msg = "Horario de Termino (1-24): ";
         end = CHKinput(msg,1,24);
         validTime = end < start || agenda->avaliable[end-1];
-        if (validTime)
+        if (validTime) {
+            //PRTerror(2,"INPUT VALUE");
             printf(DECO01 cRED"Horario de Termino Invalido.\n"cRSET);
+        }
         else validTime = false;
     }
 

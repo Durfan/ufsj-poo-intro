@@ -6,6 +6,7 @@
 #define POOTIV2_TI_TOOLS_H
 
 void BufferClear();
+void PRTerror(int errorCode, char *msg);
 int CHKinput(char *msg, int min, int max);
 int CHKstart(user_t *agenda);
 int CHKend(user_t *agenda, tinyN_t start);
