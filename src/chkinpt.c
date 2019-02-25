@@ -74,7 +74,7 @@ int CHKend(user_t *agenda, tinyN_t start) {
     while (validTime) {
         msg = "Horario de Termino (1-24): ";
         end = CHKinput(msg,1,24);
-        validTime = end < start || agenda->avaliable[end-1];
+        validTime = end <= start || agenda->avaliable[end-1];
         if (validTime) {
             //PRTerror(2,"INPUT VALUE");
             printf(DECO01 cRED"Horario de Termino Invalido.\n"cRSET);

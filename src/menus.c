@@ -242,6 +242,6 @@ void menuTitle(users_t *list, user_t *agenda, tinyN_t title) {
 
 void voltar() {
     printf(DECO00 DECO02);
-    printf("ENTER para voltar...");
+    printf("\u23CE para voltar...");
     getchar();
 }

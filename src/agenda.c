@@ -87,8 +87,8 @@ void PRTusers(users_t *list) {
     user_t *ptr = list->head;
     while (!isNULL(ptr)) {
         printf(DECO03"[%d]", IDuser(list,ptr)+1);
-        printf(" %s", ptr->data.name);
-        printf(" (%s)\n", ptr->data.email);
+        printf(" %s \u2500 ", ptr->data.name);
+        printf("\u2709 %s\n", ptr->data.email);
         ptr = ptr->next;
     }
 }
